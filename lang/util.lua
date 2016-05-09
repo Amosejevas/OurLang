@@ -14,7 +14,7 @@ local function dump(node, level)
    if type(node) == "boolean" or type(node) == "cdata" then
       return tostring(node)
    end
-   if type(node) == "function" then
+   if type(node) == "task" then
       return tostring(node)
    end
 

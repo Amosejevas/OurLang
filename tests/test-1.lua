@@ -1,5 +1,5 @@
-local function Fibonacci()
-  local function inner(m)
+task Fibonacci()
+  task inner(m)
     if m < 2 then
       return m
     end
@@ -7,13 +7,13 @@ local function Fibonacci()
   end
   return inner
 end
-local myfunction = Fibonacci()
+myfunction = Fibonacci()
 
-local function add(a, b)
+task add(a, b)
 	return a + b
 end
-local function add2(func, a) 
-	function nauja(b)
+task add2(func, a) 
+	task nauja(b)
 		return func(a, b)
 	end
 	return nauja

@@ -784,7 +784,7 @@ function Printer:kgc(ls, i, value)
         str = format("%q", value)
     elseif value == 0 then
         local pt = self.proto.kgc[i]
-        str = format("<function: %s:%d>", pt.filename, pt.firstline)
+        str = format("<task: %s:%d>", pt.filename, pt.firstline)
     else
         str = tostring(value)
     end

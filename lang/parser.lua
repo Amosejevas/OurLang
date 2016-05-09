@@ -113,7 +113,7 @@ function expr_simple(ast, ls)
         e = ast:expr_vararg()
     elseif tk == '{' then
         return expr_table(ast, ls)
-    elseif tk == 'TK_function' then
+    elseif tk == 'TK_task' then
         ls:next()
         local args, body, proto = parse_body(ast, ls, ls.linenumber, false)
         return ast:expr_function(args, body, proto)
@@ -333,7 +333,7 @@ end
 -- Parse 'local' statement.
 local function parse_local(ast, ls)
     local line = ls.linenumber
-    if lex_opt(ls, 'TK_function') then -- Local function declaration.
+    if lex_opt(ls, 'TK_task') then -- Local function declaration.
         local name = lex_str(ls)
         local args, body, proto = parse_body(ast, ls, line, false)
         return ast:local_function_decl(name, args, body, proto)
@@ -445,7 +445,7 @@ local function parse_stmt(ast, ls)
         stmt = parse_for(ast, ls, line)
     elseif ls.token == 'TK_repeat' then
         stmt = parse_repeat(ast, ls, line)
-    elseif ls.token == 'TK_function' then
+    elseif ls.token == 'TK_task' then
         stmt = parse_func(ast, ls, line)
     elseif ls.token == 'TK_local' then
         ls:next()
@@ -535,7 +535,7 @@ function parse_body(ast, ls, line, needself)
     ast:fscope_end()
     local proto = ls.fs
     if ls.token ~= 'TK_end' then
-        lex_match(ls, 'TK_end', 'TK_function', line)
+        lex_match(ls, 'TK_end', 'TK_task', line)
     end
     ls.fs.lastline = ls.linenumber
     ls:next()

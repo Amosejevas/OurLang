@@ -1,0 +1,50 @@
+//Programos pradžios indikatorius
+init_p
+
+	//Procedūrų aprašymas   end - procedūros pabaigos ženklas.
+
+	task fname par1 @ numeric par2 @ numeric gives numeric
+		par1 + par2
+	end
+
+	//for ciklo pavyzdys  cycle(<initiation>: <condition>: <postCondition>) vidus apskliaudžiamas {}
+	task WArray par @ numeric 2 gives type
+		cycle(var3 = 0 ; var3 <= table.getn(par); var3 => var3 + 1){
+			par $0 => var3
+		}
+	end
+
+	// unless tas pats kas while
+	task condition par1 @ numeric par2 @ numeric gives numeric
+		unless(par1 < par2 or par2 == 0){
+			show "Print1"
+		} else {
+			show "Print2" + par2
+		}
+	end
+
+	task CurriedFunction fname @ task a @ numeric gives task
+		fname(a, _)
+	end
+
+    task main
+		var1 @ numeric
+		var2 @ string
+		var3 @ numeric
+		var4 @ numeric
+		result @ numeric
+		var5 @ Task
+		varArray @ Numeric 10 pref 0 
+		fname(var1, var2)
+		var5 = CurriedFunction(fname, var1)
+		result = var5(var4)
+		show result
+    end
+
+//Programos pabaigos indikatorius
+close_p
+
+
+Types - Numeric, string
+
+
