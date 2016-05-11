@@ -537,6 +537,7 @@ end
 
 local function parse(ast, ls)
     ls:next()
+    lex_check(ls, 'TK_init_p')
     ls.fs = new_proto(ls, true)
     ast:fscope_begin()
     local chunk = parse_chunk(ast, ls)
