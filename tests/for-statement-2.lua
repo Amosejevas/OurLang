@@ -7,3 +7,4 @@ local task foo(n)
 	return sum
 end
 print(foo(2))
+close_p

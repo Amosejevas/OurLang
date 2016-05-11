@@ -2,7 +2,7 @@ local operator = require("lang.operator")
 
 local LJ_52 = false
 
-local EndOfBlock = { TK_else = true, TK_elseif = true, TK_end = true, TK_until = true, TK_eof = true }
+local EndOfBlock = { TK_else = true, TK_elseif = true, TK_end = true, TK_until = true, TK_eof = false, TK_close_p = true }
 
 local function err_syntax(ls, em)
   ls:error(ls.token, em)
@@ -437,6 +437,10 @@ local function parse_stmt(ast, ls)
     elseif ls.token == 'TK_return' then
         stmt = parse_return(ast, ls, line)
         return stmt, true -- Must be last.
+    elseif ls.token == 'TK_close_p' then
+        ls:next()
+        stmt = ast:break_stmt(line)
+        return stmt, not LJ_52 -- Must be last in Lua 5.1.    
     elseif ls.token == 'TK_break' then
         ls:next()
         stmt = ast:break_stmt(line)
@@ -542,9 +546,10 @@ local function parse(ast, ls)
     ast:fscope_begin()
     local chunk = parse_chunk(ast, ls)
     ast:fscope_end()
-    if ls.token ~= 'TK_eof' then
-        err_token(ls, 'TK_eof')
+    if ls.token ~= 'TK_close_p' then
+        err_token(ls, 'TK_close_p')
     end
+    lex_check(ls, 'TK_close_p')
     return chunk
 end
 
