@@ -1,3 +1,4 @@
+init_p
 task Fibonacci()
   task inner(m)
     if m < 2 then
@@ -21,3 +22,4 @@ end
 
 add2to = add2(add, 6)
 print(add2to(2))
+close_p
