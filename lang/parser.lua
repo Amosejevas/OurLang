@@ -225,45 +225,29 @@ local function parse_for_num(ast, ls, varname, line)
     local init = expr(ast, ls)
     lex_check(ls, ',')
     local last = expr(ast, ls)
-    local step
-    if lex_opt(ls, ',') then
-        step = expr(ast, ls)
-    else
-        step = ast:literal(1)
-    end
+    lex_check(ls, ',')
+    local step = expr(ast, ls)
+    lex_check(ls, ')')
     lex_check(ls, 'TK_do')
     local body = parse_block(ast, ls, line)
     local var = ast:identifier(varname)
     return ast:for_stmt(var, init, last, step, body, line, ls.linenumber)
 end
 
--- Parse 'for' iterator.
-local function parse_for_iter(ast, ls, indexname)
-    local vars = { ast:identifier(indexname) }
-    while lex_opt(ls, ',') do
-        vars[#vars + 1] = ast:identifier(lex_str(ls))
-    end
-    lex_check(ls, 'TK_in')
-    local line = ls.linenumber
-    local exps = expr_list(ast, ls)
-    lex_check(ls, 'TK_do')
-    local body = parse_block(ast, ls, line)
-    return ast:for_iter_stmt(vars, exps, body, line, ls.linenumber)
-end
 
 -- Parse 'for' statement.
 local function parse_for(ast, ls, line)
     ls:next()  -- Skip 'for'.
+    lex_check(ls, '(')
+    --ls:next()  -- Skip (.
     local varname = lex_str(ls)  -- Get first variable name.
     local stmt
     if ls.token == '=' then
         stmt = parse_for_num(ast, ls, varname, line)
-    elseif ls.token == ',' or ls.token == 'TK_in' then
-        stmt = parse_for_iter(ast, ls, varname)
     else
-        err_syntax(ls, "'=' or 'in' expected")
+        err_syntax(ls, "'=' expected")
     end
-    lex_match(ls, 'TK_end', 'TK_for', line)
+    lex_match(ls, 'TK_end', 'TK_cycle', line)
     return stmt
 end
 
@@ -441,7 +425,7 @@ local function parse_stmt(ast, ls)
         local lastline = ls.linenumber
         lex_match(ls, 'TK_end', 'TK_do', line)
         stmt = ast:do_stmt(body, line, lastline)
-    elseif ls.token == 'TK_for' then
+    elseif ls.token == 'TK_cycle' then
         stmt = parse_for(ast, ls, line)
     elseif ls.token == 'TK_repeat' then
         stmt = parse_repeat(ast, ls, line)

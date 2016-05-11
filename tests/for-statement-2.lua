@@ -1,9 +1,8 @@
-local function foo(n)
+local task foo(n)
 	local sum = 0
-	for i = n, n*n+n, n+1 do
-		sum = sum + i*i
+	cycle (i = 1, 10, n) do
+		sum = sum + i
 	end
 	return sum
 end
-
-print(foo(10))
+print(foo(2))
