@@ -9,7 +9,7 @@ local ASCII_A, ASCII_Z = 65, 90
 
 local END_OF_STREAM = -1
 
-local ReservedKeyword = {['and'] = 1, ['break'] = 2, ['do'] = 3, ['else'] = 4, ['elseif'] = 5, ['end'] = 6, ['false'] = 7, ['cycle'] = 8, ['task'] = 9, ['goto'] = 10, ['if'] = 11, ['in'] = 12, ['local'] = 13, ['nil'] = 14, ['not'] = 15, ['or'] = 16, ['repeat'] = 17, ['return'] = 18, ['then'] = 19, ['true'] = 20, ['until'] = 21, ['while'] = 22, ['init_p'] = 23, ['close_p'] = 24 }
+local ReservedKeyword = {['and'] = 1, ['break'] = 2, ['do'] = 3, ['else'] = 4, ['elif'] = 5, ['end'] = 6, ['false'] = 7, ['cycle'] = 8, ['task'] = 9, ['goto'] = 10, ['if'] = 11, ['in'] = 12, ['local'] = 13, ['nil'] = 14, ['not'] = 15, ['or'] = 16, ['repeat'] = 17, ['return'] = 18, ['then'] = 19, ['true'] = 20, ['until'] = 21, ['while'] = 22, ['init_p'] = 23, ['close_p'] = 24 }
 
 local uint64, int64 = ffi.typeof('uint64_t'), ffi.typeof('int64_t')
 local complex = ffi.typeof('complex')
@@ -393,12 +393,12 @@ local function llex(ls)
         elseif current == ' ' or current == '\t' or current == '\b' or current == '\f' then
             savespace_and_next(ls)
             -- nextchar(ls)
-        elseif current == '-' then
+        elseif current == '/' then
             nextchar(ls)
-            if ls.current ~= '-' then return '-' end
+            if ls.current ~= '/' then return '/' end
             -- else is a comment
             nextchar(ls)
-            spaceadd(ls, '--')
+            spaceadd(ls, '//')
             if ls.current == '[' then
                 local sep = skip_sep(ls)
                 resetbuf_tospace(ls) -- `skip_sep' may dirty the buffer
