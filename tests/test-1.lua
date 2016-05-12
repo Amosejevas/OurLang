@@ -1,7 +1,7 @@
 init_p
-task Fibonacci()
-  task inner(m)
-    if (m < 2)
+task Fibonacci() 
+  task inner(m) 
+    if (m < 2) 
       return m 
     end
     return inner(m-1) + inner(m-2)
