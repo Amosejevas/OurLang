@@ -1,8 +1,8 @@
 init_p
 task Fibonacci()
   task inner(m)
-    if m < 2 then
-      return m
+    if (m < 2)
+      return m 
     end
     return inner(m-1) + inner(m-2)
   end
@@ -20,15 +20,6 @@ task add2(func, a)
 	return nauja
 end
 
-add2to = add2(add, 6)
-print(add2to(2))
+print(myfunction(5))
 close_p
-
-
-
-
-
-
-
-
 

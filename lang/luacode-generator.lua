@@ -10,7 +10,7 @@ local operator = require("lang.operator")
 
 local strbyte, strsub = string.byte, string.sub
 
-local LuaReservedKeyword = {['and'] = 1, ['break'] = 2, ['do'] = 3, ['else'] = 4, ['elseif'] = 5, ['end'] = 6, ['false'] = 7, ['for'] = 8, ['task'] = 9, ['goto'] = 10, ['if'] = 11, ['in'] = 12, ['local'] = 13, ['nil'] = 14, ['not'] = 15, ['or'] = 16, ['repeat'] = 17, ['return'] = 18, ['then'] = 19, ['true'] = 20, ['until'] = 21, ['while'] = 22 }
+local LuaReservedKeyword = {['and'] = 1, ['break'] = 2, ['do'] = 3, ['else'] = 4, ['elif'] = 5, ['end'] = 6, ['false'] = 7, ['for'] = 8, ['task'] = 9, ['goto'] = 10, ['if'] = 11, ['in'] = 12, ['local'] = 13, ['nil'] = 14, ['not'] = 15, ['or'] = 16, ['repeat'] = 17, ['return'] = 18, ['then'] = 19, ['true'] = 20, ['until'] = 21, ['while'] = 22 }
 
 local ASCII_0, ASCII_9 = 48, 57
 local ASCII_a, ASCII_z = 97, 122
@@ -276,7 +276,7 @@ end
 function StatementRule:IfStatement(node)
     local ncons = #node.tests
     for i = 1, ncons do
-        local header_tag = i == 1 and "if" or "elseif"
+        local header_tag = i == 1 and "if" or "elif"
         local test = self:expr_emit(node.tests[i])
         local header = format("%s %s then", header_tag, test)
         self:add_section(header, node.cons[i], true)

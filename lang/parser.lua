@@ -223,9 +223,9 @@ end
 local function parse_for_num(ast, ls, varname, line)
     lex_check(ls, '=')
     local init = expr(ast, ls)
-    lex_check(ls, ',')
+    lex_check(ls, ';')
     local last = expr(ast, ls)
-    lex_check(ls, ',')
+    lex_check(ls, ';')
     local step = expr(ast, ls)
     lex_check(ls, ')')
     lex_check(ls, 'TK_do')
@@ -367,14 +367,13 @@ end
 local function parse_then(ast, ls, tests, line)
     ls:next()
     tests[#tests+1] = expr(ast, ls)
-    lex_check(ls, 'TK_then')
     return parse_block(ast, ls, line)
 end
 
 local function parse_if(ast, ls, line)
     local tests, blocks = { }, { }
     blocks[1] = parse_then(ast, ls, tests, line)
-    while ls.token == 'TK_elseif' do
+    while ls.token == 'TK_elif' do
         blocks[#blocks+1] = parse_then(ast, ls, tests, ls.linenumber)
     end
     local else_branch
