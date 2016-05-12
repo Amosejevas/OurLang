@@ -24,7 +24,7 @@ end
 
 task ifcheck (a, b)
 	local i = 0
-	if (a > b)
+	if (a != b)
 		return a
 	elif (b > a)
 		return b

@@ -29,7 +29,7 @@ local cmpop = {
     ['<='] = { 'LE', false },
     ['>='] = { 'LE', true  },
     ['=='] = { 'EQ', false },
-    ['~='] = { 'NE', false },
+    ['!='] = { 'NE', false },
 }
 
 -- the same of above but for the inverse tests
@@ -39,7 +39,7 @@ local cmpopinv = {
     ['<='] = { 'GT', false },
     ['>='] = { 'GT', true  },
     ['=='] = { 'NE', false },
-    ['~='] = { 'EQ', false },
+    ['!='] = { 'EQ', false },
 }
 
 local function lang_error(msg, chunkname, line)
@@ -508,7 +508,7 @@ function TestRule:BinaryExpression(node, jmp, jreg, negate, store, dest)
     if cmpop[o] then
         local free = self.ctx.freereg
         local atag, a, btag, b
-        if o == '==' or o == '~=' then
+        if o == '==' or o == '!=' then
             atag, a = self:expr_toanyreg_tagged(node.left, EXPR_EMIT_VSNP)
             if atag == 'V' then
                 btag, b = self:expr_toanyreg_tagged(node.right, EXPR_EMIT_VSNP)

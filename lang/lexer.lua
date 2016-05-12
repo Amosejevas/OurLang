@@ -14,7 +14,7 @@ local ReservedKeyword = {['and'] = 1, ['break'] = 2, ['do'] = 3, ['else'] = 4, [
 local uint64, int64 = ffi.typeof('uint64_t'), ffi.typeof('int64_t')
 local complex = ffi.typeof('complex')
 
-local TokenSymbol = { TK_ge = '>=', TK_le = '<=' , TK_concat = '..', TK_eq = '==', TK_ne = '~=', TK_eof = '<eof>' }
+local TokenSymbol = { TK_ge = '>=', TK_le = '<=' , TK_concat = '..', TK_eq = '==', TK_ne = '!=', TK_eof = '<eof>' }
 
 local function token2str(tok)
     if string.match(tok, "^TK_") then
@@ -430,9 +430,9 @@ local function llex(ls)
         elseif current == '>' then
             nextchar(ls)
             if ls.current ~= '=' then return '>' else nextchar(ls); return 'TK_ge' end
-        elseif current == '~' then
+        elseif current == '!' then
             nextchar(ls)
-            if ls.current ~= '=' then return '~' else nextchar(ls); return 'TK_ne' end
+            if ls.current ~= '=' then return '!' else nextchar(ls); return 'TK_ne' end
         elseif current == ':' then
             nextchar(ls)
             if ls.current ~= ':' then return ':' else nextchar(ls); return 'TK_label' end
