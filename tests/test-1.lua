@@ -23,3 +23,12 @@ end
 add2to = add2(add, 6)
 print(add2to(2))
 close_p
+
+
+
+
+
+
+
+
+
